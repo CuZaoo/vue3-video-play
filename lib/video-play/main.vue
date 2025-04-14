@@ -47,6 +47,15 @@
       >
         您的浏览器不支持Video标签。
       </video>
+
+      <!-- 音频播放器 -->
+    <audio
+      ref="refAudio"
+      :src="props.audioSrc"
+      :loop="state.loop"
+      :preload="preload"
+    ></audio>
+
     </div>
     <!-- 缓冲动画 -->
     <!-- <d-waitingloading text="正在缓冲..." v-show="state.waitingLoading" /> -->
@@ -291,6 +300,7 @@ const emits = defineEmits([
 
 const refPlayerWrap: Ref<HTMLElement> = ref(null); //wrap
 const refdVideo: Ref<HTMLElement> = ref(null); // 视频播放器
+const refAudio: Ref<HTMLAudioElement | null> = ref(null); // 视频播放器
 const refPlayerControl: Ref<HTMLElement> = ref(null); //播放器控制器
 const refInput: Ref<HTMLElement> = ref(null); //快捷键操作
 const state = reactive({
@@ -451,6 +461,15 @@ const inputFocusHandle = () => {
   if (isMobile) return;
   refInput.value.focus();
 };
+
+// 同步音频和视频的播放状态
+const syncAudioWithVideo = () => {
+  if (refdVideo.value && refAudio.value) {
+    refAudio.value.currentTime = refdVideo.value.currentTime;
+    refAudio.value.playbackRate = refdVideo.value.playbackRate;
+  }
+};
+
 // 播放方法
 const playHandle = () => {
   state.loadStateType = "play";
@@ -466,6 +485,9 @@ const playHandle = () => {
       })
     },200)
   });
+  if (refAudio.value) {
+    refAudio.value.play();
+  }
   state.playBtnState = "pause";
   // 播放后清空状态
   // state.loadStateType = ''
@@ -473,7 +495,12 @@ const playHandle = () => {
 // 暂停
 const pauseHandle = () => {
   // state.loadStateType = 'pause' // 暂停状态
-  state.dVideo.pause();
+  if (refdVideo.value) {
+    refdVideo.value.pause();
+  }
+  if (refAudio.value) {
+    refAudio.value.pause();
+  }
   state.playBtnState = "play"; // 暂停后要显示播放按钮
 };
 
@@ -492,9 +519,15 @@ const togglePlay = (ev) => {
 // 静音事件
 const mutedHandler = () => {
   state.muted = !state.muted;
-  // 如果之前音量调整为0 取消静音时会把音量设置为5
-  if (state.volume == 0) {
-    state.volume = 0.05;
+  if (refdVideo.value) {
+    refdVideo.value.muted = state.muted;
+  }
+  if (refAudio.value) {
+    refAudio.value.muted = state.muted;
+  }
+  // 如果取消静音且音量为 0，设置默认音量
+  if (!state.muted && state.volume === 0) {
+    state.volume = 0.5;
   }
 };
 
@@ -598,7 +631,27 @@ const init = (): void => {
     });
   }
 };
-
+// 监听视频的播放进度和倍速变化，更新音频
+watch(
+  () => state.speedActive,
+  (newSpeed) => {
+    if (refAudio.value) {
+      refAudio.value.playbackRate = parseFloat(newSpeed);
+    }
+  }
+);
+// 监听音量变化
+watch(
+  () => state.volume,
+  (newVolume) => {
+    if (refdVideo.value) {
+      refdVideo.value.volume = newVolume;
+    }
+    if (refAudio.value) {
+      refAudio.value.volume = newVolume;
+    }
+  }
+);
 watch(
   () => props.src,
   () => {
@@ -610,6 +663,12 @@ watch(
   { immediate: true }
 );
 onMounted(() => {
+  if (refdVideo.value && refAudio.value) {
+    // 同步播放进度
+    refdVideo.value.addEventListener("timeupdate", syncAudioWithVideo);
+    // 同步播放速率
+    refdVideo.value.addEventListener("ratechange", syncAudioWithVideo);
+  }
   state.dVideo = refdVideo;
   inputFocusHandle();
 });

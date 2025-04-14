@@ -27,6 +27,7 @@ export const defineProps = {
   height: { type: String, default: "450px" },
   color: { type: String, default: "#409eff" },
   src: { required: true, type: String, default: "" }, //视频源
+  audioSrc: { type: String, default: "" },
   title: { type: String, default: "" }, //视频名称
   type: { type: String, default: "video/mp4" }, //视频类型
   poster: { type: String, default: "" }, //封面

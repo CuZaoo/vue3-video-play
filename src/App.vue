@@ -44,7 +44,9 @@ const options = reactive({
   title: "", //视频名称
   type: "video/mp4",
   // src: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8", //视频源
-  src: "https://cdn.jsdelivr.net/gh/xdlumia/files/video-play/IronMan.mp4", //视频源
+  // src: "https://cdn.jsdelivr.net/gh/xdlumia/files/video-play/IronMan.mp4", //视频源
+  src: "https://cn-gdfs-ct-01-03.bilivideo.com/upgcxcode/87/60/28334886087/28334886087-1-100050.m4s?e=ig8euxZM2rNcNbdlhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1744643660&gen=playurlv2&os=bcache&oi=3070463774&trid=00009b9dacdd6a1549489a336346afee570eT&mid=85641118&platform=html5&og=hw&upsig=93d30896e0f016d27174e8cf426ab0e3&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,mid,platform,og&cdnid=60903&bvc=vod&nettype=0&bw=168031&orderid=0,1&buvid=&build=0&mobi_app=&f=T_0_0&logo=80000000", //视频源
+  audioSrc: "https://cn-gdfs-ct-01-03.bilivideo.com/upgcxcode/87/60/28334886087/28334886087-1-30232.m4s?e=ig8euxZM2rNcNbdlhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1744643660&gen=playurlv2&os=bcache&oi=3070463774&trid=00009b9dacdd6a1549489a336346afee570eT&mid=85641118&platform=html5&og=hw&upsig=a0936de2a9a5c88cccb954aed19b3228&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,mid,platform,og&cdnid=60903&bvc=vod&nettype=0&bw=10727&orderid=0,1&buvid=&build=0&mobi_app=&f=T_0_0&logo=80000000", //视频源
   // src: "https://logos-channel.scaleengine.net/logos-channel/live/biblescreen-ad-free/playlist.m3u8", //视频源
   poster: "https://cdn.jsdelivr.net/gh/xdlumia/files/video-play/ironMan.jpg", //封面
   controlBtns: [

@@ -1,18 +1,18 @@
 /*
- * @Author: web.王晓冬
- * @Date: 2020-11-03 16:29:47
- * @LastEditors: itab.link
- * @LastEditTime: 2023-11-09 15:50:42
- * @Description: file content
+* @Author: web.王晓冬
+* @Date: 2020-11-03 16:29:47
+* @LastEditors: itab.link
+* @LastEditTime: 2023-11-09 15:50:42
+* @Description: file content
 */
 
 <template>
   <div
-    ref="refPlayerWrap"
-    id="refPlayerWrap"
-    class="d-player-wrap"
-    @mousemove="mouseMovewWarp"
-    :class="{
+      ref="refPlayerWrap"
+      id="refPlayerWrap"
+      class="d-player-wrap"
+      @mousemove="mouseMovewWarp"
+      :class="{
       'web-full-screen': state.webFullScreen,
       'is-lightoff': state.lightOff,
       'd-player-wrap-hover':
@@ -28,33 +28,25 @@
         <img :src="props.poster" :alt="props.title" />
       </div>-->
       <video
-        ref="refdVideo"
-        class="d-player-video-main"
-        id="dPlayerVideoMain"
-        :controls="isMobile && state.speed ? true : false"
-        :class="{ 'video-mirror': state.mirror }"
-        :webkit-playsinline="props.playsinline"
-        :playsinline="props.playsinline"
-        v-bind="videoEvents"
-        :volume="state.volume"
-        :muted="state.muted"
-        :loop="state.loop"
-        :preload="preload"
-        width="100%"
-        height="100%"
-        :src="props.src"
-        :poster="props.poster"
+          ref="refdVideo"
+          class="d-player-video-main"
+          id="dPlayerVideoMain"
+          :controls="isMobile && state.speed ? true : false"
+          :class="{ 'video-mirror': state.mirror }"
+          :webkit-playsinline="props.playsinline"
+          :playsinline="props.playsinline"
+          v-bind="videoEvents"
+          :volume="state.volume"
+          :muted="state.muted"
+          :loop="state.loop"
+          :preload="preload"
+          width="100%"
+          height="100%"
+          :src="props.src"
+          :poster="props.poster"
       >
         您的浏览器不支持Video标签。
       </video>
-
-      <!-- 音频播放器 -->
-    <audio
-      ref="refAudio"
-      :src="props.audioSrc"
-      :loop="state.loop"
-      :preload="preload"
-    ></audio>
 
     </div>
     <!-- 缓冲动画 -->
@@ -78,40 +70,40 @@
     </div>
     <!-- 移动端不显示 -->
     <input
-      v-if="!isMobile"
-      type="input"
-      readonly="readonly"
-      ref="refInput"
-      @dblclick="toggleFullScreenHandle"
-      @keyup.f="toggleFullScreenHandle"
-      @keyup.esc="state.webFullScreen = false"
-      @click="togglePlay"
-      @keydown.space="togglePlay"
-      @keyup="keypress"
-      @keydown.arrow-left="keydownLeft"
-      @keydown.arrow-up.arrow-down="volumeKeydown"
-      @keydown="keypress"
-      class="d-player-input"
-      maxlength="0"
+        v-if="!isMobile"
+        type="input"
+        readonly="readonly"
+        ref="refInput"
+        @dblclick="toggleFullScreenHandle"
+        @keyup.f="toggleFullScreenHandle"
+        @keyup.esc="state.webFullScreen = false"
+        @click="togglePlay"
+        @keydown.space="togglePlay"
+        @keyup="keypress"
+        @keydown.arrow-left="keydownLeft"
+        @keydown.arrow-up.arrow-down="volumeKeydown"
+        @keydown="keypress"
+        class="d-player-input"
+        maxlength="0"
     />
     <!-- 预加载动画 -->
-    <d-loading :loadType="state.loadStateType" />
-    <d-contextmenu />
+    <d-loading :loadType="state.loadStateType"/>
+    <d-contextmenu/>
     <!-- PC端播放按钮控制器  移动端调用自带控制器-->
     <div
-      class="d-player-control"
-      ref="refPlayerControl"
-      v-if="!isMobile && state.control"
+        class="d-player-control"
+        ref="refPlayerControl"
+        v-if="!isMobile && state.control"
     >
       <div class="d-control-progress">
         <d-slider
-          class="d-progress-bar"
-          @onMousemove="onProgressMove"
-          @change="progressBarChange"
-          :disabled="!state.speed"
-          :hoverText="state.progressCursorTime"
-          v-model="state.playProgress"
-          :preload="state.preloadBar"
+            class="d-progress-bar"
+            @onMousemove="onProgressMove"
+            @change="progressBarChange"
+            :disabled="!state.speed"
+            :hoverText="state.progressCursorTime"
+            v-model="state.playProgress"
+            :preload="state.preloadBar"
         ></d-slider>
       </div>
 
@@ -121,8 +113,8 @@
             <d-icon size="24" :icon="`icon-${state.playBtnState}`"></d-icon>
           </div>
           <div
-            class="d-tool-item d-tool-time audioTrack-btn"
-            v-if="props.controlBtns.includes('audioTrack')"
+              class="d-tool-item d-tool-time audioTrack-btn"
+              v-if="props.controlBtns.includes('audioTrack')"
           >
             <span>{{ state.currentTime }}</span>
             <span style="margin: 0 3px">/</span>
@@ -132,8 +124,8 @@
         <div class="d-tool-bar">
           <!-- 清晰度 -->
           <div
-            class="d-tool-item quality-btn"
-            v-if="
+              class="d-tool-item quality-btn"
+              v-if="
               state.qualityLevels.length &&
               props.controlBtns.includes('quality')
             "
@@ -145,10 +137,10 @@
             <div class="d-tool-item-main">
               <ul class="speed-main" style="text-align: center">
                 <li
-                  :class="{ 'speed-active': state.currentLevel == index }"
-                  @click="qualityLevelsHandle(row, index)"
-                  v-for="(row, index) of state.qualityLevels"
-                  :key="row"
+                    :class="{ 'speed-active': state.currentLevel == index }"
+                    @click="qualityLevelsHandle(row, index)"
+                    v-for="(row, index) of state.qualityLevels"
+                    :key="row"
                 >
                   {{ row.height }}P
                 </li>
@@ -158,17 +150,17 @@
           </div>
           <!-- 倍速播放 -->
           <div
-            class="d-tool-item speedRate-btn"
-            v-if="props.controlBtns.includes('speedRate')"
+              class="d-tool-item speedRate-btn"
+              v-if="props.controlBtns.includes('speedRate')"
           >
             {{ state.speedActive == "1.0" ? "倍速" : state.speedActive + "x" }}
             <div class="d-tool-item-main">
               <ul class="speed-main">
                 <li
-                  :class="{ 'speed-active': state.speedActive == row }"
-                  @click="playbackRate(row)"
-                  v-for="row of state.speedRate"
-                  :key="row"
+                    :class="{ 'speed-active': state.speedActive == row }"
+                    @click="playbackRate(row)"
+                    v-for="row of state.speedRate"
+                    :key="row"
                 >
                   {{ row }}x
                 </li>
@@ -177,28 +169,28 @@
           </div>
           <!-- 音量 -->
           <div
-            class="d-tool-item volume-btn"
-            v-if="props.controlBtns.includes('volume')"
+              class="d-tool-item volume-btn"
+              v-if="props.controlBtns.includes('volume')"
           >
             <div class="d-tool-item-main volume-box" style="width: 52px">
               <div class="volume-main" :class="{ 'is-muted': state.muted }">
                 <span class="volume-text-size"
-                  >{{ state.muted ? 0 : ~~(state.volume * 100) }}%</span
+                >{{ state.muted ? 0 : ~~(state.volume * 100) }}%</span
                 >
                 <!-- @change 如果修改音量则取消静音 -->
                 <d-slider
-                  @change="state.muted = false"
-                  :hover="false"
-                  size="5px"
-                  :vertical="true"
-                  v-model="state.volume"
+                    @change="state.muted = false"
+                    :hover="false"
+                    size="5px"
+                    :vertical="true"
+                    v-model="state.volume"
                 ></d-slider>
               </div>
             </div>
             <span @click="mutedHandler" style="display: flex">
               <d-icon
-                size="20"
-                :icon="`icon-volume-${
+                  size="20"
+                  :icon="`icon-volume-${
                   state.volume == 0 || state.muted
                     ? 'mute'
                     : state.volume > 0.5
@@ -210,50 +202,50 @@
           </div>
           <!-- 设置 -->
           <div
-            class="d-tool-item setting-btn"
-            v-if="props.controlBtns.includes('setting')"
+              class="d-tool-item setting-btn"
+              v-if="props.controlBtns.includes('setting')"
           >
             <d-icon size="20" class="rotateHover" icon="icon-settings"></d-icon>
             <div class="d-tool-item-main">
               <ul class="speed-main">
                 <li>
                   镜像画面
-                  <d-switch @change="mirrorChange" v-model="state.mirror" />
+                  <d-switch @change="mirrorChange" v-model="state.mirror"/>
                 </li>
                 <li>
                   循环播放
-                  <d-switch @change="loopChange" v-model="state.loop" />
+                  <d-switch @change="loopChange" v-model="state.loop"/>
                 </li>
                 <li>
                   关灯模式
-                  <d-switch @change="lightOffChange" v-model="state.lightOff" />
+                  <d-switch @change="lightOffChange" v-model="state.lightOff"/>
                 </li>
               </ul>
             </div>
           </div>
           <!-- 画中画 -->
           <div
-            class="d-tool-item pip-btn"
-            v-if="props.controlBtns.includes('pip')"
-            @click="requestPictureInPictureHandle"
+              class="d-tool-item pip-btn"
+              v-if="props.controlBtns.includes('pip')"
+              @click="requestPictureInPictureHandle"
           >
             <d-icon size="20" icon="icon-pip"></d-icon>
             <div class="d-tool-item-main">画中画</div>
           </div>
           <!-- 网页全屏 -->
           <div
-            class="d-tool-item pip-btn"
-            v-if="props.controlBtns.includes('pageFullScreen')"
-            @click="state.webFullScreen = !state.webFullScreen"
+              class="d-tool-item pip-btn"
+              v-if="props.controlBtns.includes('pageFullScreen')"
+              @click="state.webFullScreen = !state.webFullScreen"
           >
             <d-icon size="20" icon="icon-web-screen"></d-icon>
             <div class="d-tool-item-main">网页全屏</div>
           </div>
           <!-- 全屏 -->
           <div
-            class="d-tool-item fullScreen-btn"
-            v-if="props.controlBtns.includes('fullScreen')"
-            @click="toggleFullScreenHandle"
+              class="d-tool-item fullScreen-btn"
+              v-if="props.controlBtns.includes('fullScreen')"
+              @click="toggleFullScreenHandle"
           >
             <div class="d-tool-item-main">全屏</div>
             <d-icon size="20" icon="icon-screen"></d-icon>
@@ -270,9 +262,10 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { reactive, ref, Ref, onMounted, useAttrs, watch, nextTick } from "vue";
-import { debounce } from "throttle-debounce";
+import {reactive, ref, Ref, onMounted, useAttrs, watch, nextTick, onBeforeUnmount} from "vue";
+import {debounce} from "throttle-debounce";
 import Hls2 from "hls.js";
+import {Howl} from "howler";
 import DIcon from "../components/d-icon.vue";
 import DPlayerTop from "../components/d-player-top.vue";
 import DStatus from "../components/d-status.vue"; //倍速播放状态
@@ -288,8 +281,11 @@ import {
   isMobile,
   firstUpperCase,
 } from "../utils/util";
-const Hls = new Hls2({ fragLoadingTimeOut: 2000 });
-import { videoEmits, defineProps } from "./plugins/index";
+
+const Hls = new Hls2({fragLoadingTimeOut: 2000});
+const audioHowl = ref<Howl | null>(null);
+import {videoEmits, defineProps} from "./plugins/index";
+
 const props = defineProps(defineProps); //props
 const emits = defineEmits([
   ...videoEmits,
@@ -327,9 +323,9 @@ const state = reactive({
   currentLevel: 0, //首选分辨率
 });
 const compose =
-  (...args) =>
-  (value) =>
-    args.reverse().reduce((acc, fn) => fn(acc), value);
+    (...args) =>
+        (value) =>
+            args.reverse().reduce((acc, fn) => fn(acc), value);
 // 收集video事件
 const videoEvents = videoEmits.reduce((events, emit) => {
   let name = `on${firstUpperCase(emit)}`;
@@ -419,7 +415,7 @@ const volumeKeydown = (ev) => {
 const keydownLeft = (ev) => {
   if (!props.speed) return; // 如果不支持快进快退s
   state.dVideo.currentTime =
-    state.dVideo.currentTime < 10 ? 0.1 : state.dVideo.currentTime - 10;
+      state.dVideo.currentTime < 10 ? 0.1 : state.dVideo.currentTime - 10;
   videoEvents.onTimeupdate(state.dVideo);
   playHandle();
 };
@@ -464,12 +460,17 @@ const inputFocusHandle = () => {
 
 // 同步音频和视频的播放状态
 const syncAudioWithVideo = () => {
-  if (refdVideo.value && refAudio.value) {
-    refAudio.value.currentTime = refdVideo.value.currentTime;
-    refAudio.value.playbackRate = refdVideo.value.playbackRate;
+  if (refdVideo.value && audioHowl.value) {
+    const videoCurrent = refdVideo.value.currentTime;
+    const audioCurrent = audioHowl.value.seek() as number;
+
+    // 只有当差异大于阈值时才同步，避免频繁调整引起的杂音
+    if (Math.abs(videoCurrent - audioCurrent) > 0.05) {
+      audioHowl.value.seek(videoCurrent);
+    }
   }
 };
-
+const throttledSync = debounce(100, syncAudioWithVideo);
 // 播放方法
 const playHandle = () => {
   state.loadStateType = "play";
@@ -483,10 +484,15 @@ const playHandle = () => {
         state.playBtnState = "replay";
         state.loadStateType = "error";
       })
-    },200)
+    }, 200)
   });
-  if (refAudio.value) {
-    refAudio.value.play();
+  // 使用Howler播放音频
+  if (audioHowl.value && !audioHowl.value.playing()) {
+    // 设置当前播放位置与视频同步
+    audioHowl.value.seek(state.dVideo.currentTime);
+    // 设置播放速率与视频同步
+    audioHowl.value.rate(parseFloat(state.speedActive));
+    audioHowl.value.play();
   }
   state.playBtnState = "pause";
   // 播放后清空状态
@@ -498,9 +504,11 @@ const pauseHandle = () => {
   if (refdVideo.value) {
     refdVideo.value.pause();
   }
-  if (refAudio.value) {
-    refAudio.value.pause();
+  // 使用Howler暂停音频
+  if (audioHowl.value && audioHowl.value.playing()) {
+    audioHowl.value.pause();
   }
+
   state.playBtnState = "play"; // 暂停后要显示播放按钮
 };
 
@@ -519,15 +527,49 @@ const togglePlay = (ev) => {
 // 静音事件
 const mutedHandler = () => {
   state.muted = !state.muted;
+
   if (refdVideo.value) {
     refdVideo.value.muted = state.muted;
   }
-  if (refAudio.value) {
-    refAudio.value.muted = state.muted;
+
+  if (audioHowl.value) {
+    audioHowl.value.mute(state.muted);
   }
-  // 如果取消静音且音量为 0，设置默认音量
+
   if (!state.muted && state.volume === 0) {
     state.volume = 0.5;
+  }
+};
+// 初始化Howler实例
+const initAudio = () => {
+  // 销毁旧实例
+  if (audioHowl.value) {
+    audioHowl.value.unload();
+  }
+
+  if (props.audioSrc) {
+    audioHowl.value = new Howl({
+      src: [props.audioSrc],
+      html5: true, // 使用HTML5 Audio以支持流媒体
+      preload: true,
+      loop: state.loop,
+      volume: state.volume,
+      rate: parseFloat(state.speedActive),
+      mute: state.muted,
+      onload: () => {
+        console.log('音频加载完成');
+      },
+      onloaderror: (id, error) => {
+        console.error('音频加载错误:', error);
+      },
+      onplayerror: (id, error) => {
+        console.error('音频播放错误:', error);
+        // 尝试恢复播放
+        audioHowl.value?.once('unlock', () => {
+          audioHowl.value?.play();
+        });
+      }
+    });
   }
 };
 
@@ -592,12 +634,12 @@ const toggleFullScreenHandle = () => {
 const init = (): void => {
   if (!state.dVideo.canPlayType(props.type)) {
     console.error(
-      "vue3-video-play: Format not supported,Check the [type] parameter"
+        "vue3-video-play: Format not supported,Check the [type] parameter"
     );
   }
   if (
-    state.dVideo.canPlayType(props.type) ||
-    state.dVideo.canPlayType("application/vnd.apple.mpegurl")
+      state.dVideo.canPlayType(props.type) ||
+      state.dVideo.canPlayType("application/vnd.apple.mpegurl")
   ) {
     state.muted = props.autoPlay;
     // state.dVideo.load();
@@ -635,8 +677,8 @@ const init = (): void => {
 watch(
   () => state.speedActive,
   (newSpeed) => {
-    if (refAudio.value) {
-      refAudio.value.playbackRate = parseFloat(newSpeed);
+    if (audioHowl.value) {
+      audioHowl.value.rate(parseFloat(newSpeed));
     }
   }
 );
@@ -647,30 +689,65 @@ watch(
     if (refdVideo.value) {
       refdVideo.value.volume = newVolume;
     }
-    if (refAudio.value) {
-      refAudio.value.volume = newVolume;
+    if (audioHowl.value) {
+      audioHowl.value.volume(newVolume);
     }
   }
 );
+// 监听音频源变化
 watch(
-  () => props.src,
+  () => props.audioSrc,
   () => {
     nextTick(() => {
-      // 初始化
-      init();
+      initAudio();
     });
   },
   { immediate: true }
 );
-onMounted(() => {
-  if (refdVideo.value && refAudio.value) {
-    // 同步播放进度
-    refdVideo.value.addEventListener("timeupdate", syncAudioWithVideo);
-    // 同步播放速率
-    refdVideo.value.addEventListener("ratechange", syncAudioWithVideo);
+watch(
+  () => state.loop,
+  (newLoop) => {
+    if (audioHowl.value) {
+      audioHowl.value.loop(newLoop);
+    }
   }
+);
+watch(
+    () => props.src,
+    () => {
+      nextTick(() => {
+        // 初始化
+        init();
+      });
+    },
+    {immediate: true}
+);
+onMounted(() => {
+  if (refdVideo.value) {
+    // 只监听视频事件,不再监听原生audio事件
+    refdVideo.value.addEventListener("timeupdate", throttledSync);
+    refdVideo.value.addEventListener("ratechange", () => {
+      if (audioHowl.value) {
+        audioHowl.value.rate(refdVideo.value.playbackRate);
+      }
+    });
+  }
+
   state.dVideo = refdVideo;
+  initAudio(); // 初始化音频
   inputFocusHandle();
+});
+// 清理资源
+onBeforeUnmount(() => {
+  if (refdVideo.value) {
+    refdVideo.value.removeEventListener("timeupdate", throttledSync);
+    refdVideo.value.removeEventListener("ratechange", () => {});
+  }
+
+  // 卸载Howler实例
+  if (audioHowl.value) {
+    audioHowl.value.unload();
+  }
 });
 defineExpose({
   play: playHandle, //播放
@@ -685,10 +762,12 @@ defineExpose({
 @import "../style/transition.less";
 @import "../style/animate.less";
 @import "../style/base.less";
+
 .d-player-wrap {
   --primary-color: v-bind(hexToRgbaColor);
   width: v-bind(width);
   height: v-bind(height);
 }
+
 @import "../style/vPlayer.less";
 </style>

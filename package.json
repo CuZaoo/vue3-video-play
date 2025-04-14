@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "hls.js": "^1.4.12",
+    "howler": "^2.2.4",
     "throttle-debounce": "^5.0.0",
     "vue": "^3.2.25"
   },
